@@ -1,16 +1,109 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: sparrro
-# "service" is the name of this project. This will also be added to your AWS resource names.
 service: backend
 
 provider:
   name: aws
   runtime: nodejs20.x
+  environment:
+    JWT_SECRET: ${ssm:/aws/reference/secretsmanager/exam_jwt}
+  region: eu-north-1
+  iam:
+    role: arn:aws:iam::051826728622:role/Lolas_roll
+
+build:
+  esbuild:
+    minify: true
+
+package:
+  individually: true
 
 functions:
-  hello:
-    handler: handler.hello
+  signUp:
+    handler: dist/functions/signUp/index.handler
     events:
       - httpApi:
-          path: /
-          method: get
+        path: /account/signup
+        method: post
+  logIn:
+    handler: dist/functions/logIn/index.handler
+    events:
+      - httpApi:
+        path: /account/login
+        method: post
+  addAlbum:
+    handler: dist/functions/addAlbum/index.handler
+    events:
+      - httpApi:
+        path: /album/add/{albumId}
+        method: put
+  removeAlbum:
+    handler: dist/functions/removeAlbum/index.handler
+    events:
+      - httpApi:
+        path: /album/remove/{albumId}
+        method: delete
+  editTags:
+    handler: dist/functions/editTags/index.handler
+    events:
+      - httpApi:
+        path: /album/edit/{albumId}
+        method: put
+  getAlbum:
+    handler: dist/functions/getAlbum/index.handler
+    events:
+      - httpApi:
+        path: /album/{albumTitle}
+        method: get
+  getByTags:
+    handler: dist/functions/getByTags/index.handler
+    events:
+      - httpApi:
+        path: /album/tags
+        method: get
+  getByOverlap:
+    handler: dist/functions/getByOverlap/index.handler
+    events:
+      - httpApi:
+        path: /album/tags/overlap
+        method: get
+
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: examProjectUsers
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    AlbumsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: examProjectAlbums
+        AttributeDefinitions:
+          - AttributeName: albumId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: albumId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    UserAlbumsTagsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: examProjectTags
+        AttributeDefinitions:
+          - AttributeName: UserId
+            AttributeType: S
+          - AttributeName: albumId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: UserId
+            KeyType: HASH
+          - AttributeName: albumId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST

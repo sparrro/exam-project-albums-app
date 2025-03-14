@@ -20,50 +20,50 @@ functions:
     handler: dist/functions/signUp/index.handler
     events:
       - httpApi:
-        path: /account/signup
-        method: post
+          path: /account/signup
+          method: post
   logIn:
     handler: dist/functions/logIn/index.handler
     events:
       - httpApi:
-        path: /account/login
-        method: post
+          path: /account/login
+          method: post
   addAlbum:
     handler: dist/functions/addAlbum/index.handler
     events:
       - httpApi:
-        path: /album/add/{albumId}
-        method: put
+          path: /album/add/{albumId}
+          method: put
   removeAlbum:
     handler: dist/functions/removeAlbum/index.handler
     events:
       - httpApi:
-        path: /album/remove/{albumId}
-        method: delete
+          path: /album/remove/{albumId}
+          method: delete
   editTags:
     handler: dist/functions/editTags/index.handler
     events:
       - httpApi:
-        path: /album/edit/{albumId}
-        method: put
+          path: /album/edit/{albumId}
+          method: put
   getAlbum:
     handler: dist/functions/getAlbum/index.handler
     events:
       - httpApi:
-        path: /album/{albumTitle}
-        method: get
+          path: /album/{albumTitle}
+          method: get
   getByTags:
     handler: dist/functions/getByTags/index.handler
     events:
       - httpApi:
-        path: /album/tags
-        method: get
+          path: /album/tags
+          method: get
   getByOverlap:
     handler: dist/functions/getByOverlap/index.handler
     events:
       - httpApi:
-        path: /album/tags/overlap
-        method: get
+          path: /album/tags/overlap
+          method: get
 
 
 resources:

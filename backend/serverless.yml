@@ -4,8 +4,6 @@ service: backend
 provider:
   name: aws
   runtime: nodejs20.x
-  environment:
-    JWT_SECRET: ${ssm:/aws/reference/secretsmanager/exam_jwt}
   region: eu-north-1
   iam:
     role: arn:aws:iam::051826728622:role/Lolas_roll

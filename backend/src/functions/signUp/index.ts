@@ -19,7 +19,7 @@ exports.handler = async (event: any) => {
         });
 
         const usernameResult = await db.send(userNameQueryCommand);
-        if ((usernameResult.Items)!.length>0) return sendError(400, "Username already in use");
+        if (usernameResult.Items!.length>0) return sendError(400, "Username already in use");
 
         const hashedPassword = await hashPassword(password);
         const putCommand = new PutCommand({
@@ -28,7 +28,7 @@ exports.handler = async (event: any) => {
                 username: username,
                 email: email,
                 password: hashedPassword,
-                albums: [],
+                albums: new Set([]),
             },
         });
         await db.send(putCommand);

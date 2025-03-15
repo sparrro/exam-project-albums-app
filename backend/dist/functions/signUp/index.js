@@ -20,7 +20,7 @@ exports.handler = async (event) => {
             },
         });
         const usernameResult = await index_1.default.send(userNameQueryCommand);
-        if ((usernameResult.Items).length > 0)
+        if (usernameResult.Items.length > 0)
             return (0, index_2.sendError)(400, "Username already in use");
         const hashedPassword = await (0, index_3.hashPassword)(password);
         const putCommand = new lib_dynamodb_1.PutCommand({
@@ -29,7 +29,7 @@ exports.handler = async (event) => {
                 username: username,
                 email: email,
                 password: hashedPassword,
-                albums: [],
+                albums: new Set([]),
             },
         });
         await index_1.default.send(putCommand);

@@ -32,6 +32,9 @@ functions:
     handler: dist/functions/addAlbum/index.handler
     events:
       - httpApi:
+          path: /album/add
+          method: put
+      - httpApi:
           path: /album/add/{albumId}
           method: put
   removeAlbum:
@@ -86,21 +89,34 @@ resources:
         AttributeDefinitions:
           - AttributeName: albumId
             AttributeType: S
+          - AttributeName: title
+            AttributeType: S
+          - AttributeName: artist
+            AttributeType: S
         KeySchema:
           - AttributeName: albumId
             KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: TitleArtistIndex
+            KeySchema:
+              - AttributeName: title
+                KeyType: HASH
+              - AttributeName: artist
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
     UserAlbumsTagsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: examProjectTags
         AttributeDefinitions:
-          - AttributeName: UserId
+          - AttributeName: username
             AttributeType: S
           - AttributeName: albumId
             AttributeType: S
         KeySchema:
-          - AttributeName: UserId
+          - AttributeName: username
             KeyType: HASH
           - AttributeName: albumId
             KeyType: RANGE

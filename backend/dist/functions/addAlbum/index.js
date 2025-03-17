@@ -43,6 +43,7 @@ const addAlbumHandler = async (event) => {
                     Item: {
                         albumId,
                         title,
+                        titleLower: title.toLowerCase(),
                         artist,
                         globalTags,
                         addedBy: new Set([username]),

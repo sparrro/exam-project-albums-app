@@ -11,10 +11,9 @@ const uuid_1 = require("uuid");
 const core_1 = __importDefault(require("@middy/core"));
 const middy_1 = require("../../middy");
 const addAlbumHandler = async (event) => {
-    const username = event.token.user; //middleware
+    const username = event.token.user;
     const { title, artist, tags } = JSON.parse(event.body);
     let albumId = event.queryStringParameters?.albumId;
-    //return sendResponse(200, true, username)
     try {
         let isNewAlbum = false;
         if (!albumId) {

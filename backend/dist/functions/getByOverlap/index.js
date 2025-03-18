@@ -10,7 +10,6 @@ const index_2 = require("../../responses/index");
 const handler = async (event) => {
     const albumId = event.queryStringParameters.albumId;
     try {
-        //hämta skivan
         const albumQueryCommand = new lib_dynamodb_1.QueryCommand({
             TableName: "examProjectAlbums",
             KeyConditionExpression: "albumId = :albumId",
@@ -26,7 +25,6 @@ const handler = async (event) => {
             ...referenceAlbum,
             addedBy: [...referenceAlbum.addedBy],
         };
-        //filtrera ut konsensustaggar
         const majorityOfUsers = Math.ceil(withCorrectSets.addedBy.length / 2);
         const consensusTags = Object.keys(withCorrectSets.globalTags).filter((tag) => withCorrectSets.globalTags[tag] >= majorityOfUsers);
         if (consensusTags.length === 0)
@@ -56,11 +54,8 @@ const handler = async (event) => {
                 ...album,
                 similarity: score,
             };
-        });
-        return (0, index_2.sendResponse)(200, false, "test", matchingAlbums);
-        /* .sort((a, b) => b.matchingTags - a.matchingTags).slice(0, 10);
-
-        return sendResponse(200, true, "Albums found", matchingAlbums); */
+        }).sort((a, b) => b.similarity - a.similarity).slice(0, 10);
+        return (0, index_2.sendResponse)(200, true, "Albums found", matchingAlbums);
     }
     catch (error) {
         console.error(error);

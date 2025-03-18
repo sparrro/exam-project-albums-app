@@ -65,7 +65,7 @@ functions:
     handler: dist/functions/getByOverlap/index.handler
     events:
       - httpApi:
-          path: /album/tags/overlap
+          path: /album/tags/{albumId}
           method: get
 
 

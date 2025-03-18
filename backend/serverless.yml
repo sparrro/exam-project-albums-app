@@ -28,6 +28,12 @@ functions:
       - httpApi:
           path: /account/login
           method: post
+  getUser:
+    handler: dist/functions/getUser/index.handler
+    events:
+      - httpApi:
+          path: /account
+          method: get
   addAlbum:
     handler: dist/functions/addAlbum/index.handler
     events:

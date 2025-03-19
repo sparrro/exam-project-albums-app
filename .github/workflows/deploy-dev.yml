@@ -35,4 +35,4 @@ jobs:
           role-skip-session-tagging: true
 
       - name: Deploy to S3
-        run: aws s3 sync ./frontend/dist s3://examprojectdevdeployment --delete
+        run: aws s3 sync ./dist s3://examprojectdevdeployment --delete

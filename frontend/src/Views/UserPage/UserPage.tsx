@@ -2,7 +2,9 @@ import "./UserPage.css"
 
 function UserPage() {
     return (
-        <></>
+        <>
+            
+        </>
     )
 }
 

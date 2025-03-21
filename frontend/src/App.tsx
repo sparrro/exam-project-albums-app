@@ -9,15 +9,18 @@ import AddAlbumPage from './Views/AddAlbumPage/AddAlbumPage';
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<StartPage/>} />
-        <Route path='/user/:username' element={<UserPage/>}/>
-        <Route path='/album/:albumId' element={<AlbumPage/>}/>
-        <Route path='/search' element={<SearchPage/>}/>
-        <Route path='/add' element={<AddAlbumPage/>}/>
-      </Routes>
-    </Router>
+    <main>
+      <Router>
+        <Routes>
+          <Route path="/" element={<StartPage/>} />
+          <Route path='/user/:username' element={<UserPage/>}/>
+          <Route path='/album/:albumId' element={<AlbumPage/>}/>
+          <Route path='/search' element={<SearchPage/>}/>
+          <Route path='/add' element={<AddAlbumPage/>}/>
+        </Routes>
+      </Router>
+    </main>
+    
   )
 }
 

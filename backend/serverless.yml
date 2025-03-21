@@ -4,6 +4,8 @@ service: backend
 provider:
   name: aws
   runtime: nodejs20.x
+  httpApi:
+    cors: true
   region: eu-north-1
   iam:
     role: arn:aws:iam::051826728622:role/Lolas_roll

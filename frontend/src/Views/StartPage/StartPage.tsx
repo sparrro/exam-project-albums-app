@@ -1,5 +1,7 @@
 import { useState } from "react"
 import "./StartPage.css"
+import { apiSignUp, apiLogIn } from "../../api/accountCalls";
+import { useLoginStore } from "../../store/login";
 
 /*
 knapp för att byta mellan registrering och inloggning
@@ -17,28 +19,47 @@ aside
 
 function StartPage() {
 
+    const { logIn } = useLoginStore();
+
     const [mode, setMode] = useState("signup");
 
-    const signUp = () => {
-        console.log('succesfully signed up')
+    const handleSignUp = async () => {
+        const username = (document.getElementById("username-input") as HTMLInputElement).value;
+        const email = (document.getElementById("email-input") as HTMLInputElement).value;
+        const password = (document.getElementById("password-input") as HTMLInputElement).value;
+        
+        await apiSignUp(username, email, password);
     }
     
-    const logIn = () => {
-        console.log("succesfully logged in")
-    }
-    
-    const switchMode = () => {
-        if (mode == "signup") {
-            setMode("login")
-        } else {
-            setMode("signup")
-        }
+    const handleLogIn = async () => {
+        const username = (document.getElementById("username-input") as HTMLInputElement).value;
+        const password = (document.getElementById("password-input") as HTMLInputElement).value;
+        
+        const response = await apiLogIn(username, password);
+        console.log(response.data.token)
+        sessionStorage.setItem("token", JSON.stringify(response.data.token));
+        logIn();
     }
 
     return (
         <>
-            <button onClick={switchMode}>{mode == "signup" ? "Already have an account" : "Create an account"}</button>
-            <button onClick={mode == "signup" ? signUp : logIn}>{mode == "signup" ? "Sign up" : "Log in"}</button>
+            <section className={mode === "signup" ? "signup-mode" : "signin-mode"}>
+                <button className="mode-btn" onClick={() => setMode("signup")}>Sign up</button>
+                <button className="mode-btn" onClick={() => setMode("login")}>Sign in</button>
+                <form>
+                    <label htmlFor="username-input">Username:</label>
+                    <input type="text" name="username-input" id="username-input" />
+                    { mode === "signup" &&
+                        <>
+                            <label htmlFor="email-input">Email:</label>
+                            <input type="text" name="email-input" id="email-input" />
+                        </>
+                    }
+                    <label htmlFor="password-input">Password:</label>
+                    <input type="text" name="password-input" id="password-input" />
+                </form>
+                <button onClick={mode === "signup" ? handleSignUp : handleLogIn }>{mode === "signup" ? "Sign up" : "Sign in"}</button>
+            </section>
         </>
     )
 }

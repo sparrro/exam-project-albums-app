@@ -23,7 +23,7 @@ const sendError = (status, message) => {
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
             "Access-Control-Allow-Header": "*",
         },
-        body: JSON.stringify(message),
+        body: JSON.stringify({ "success": false, "message": message }),
     };
 };
 exports.sendError = sendError;

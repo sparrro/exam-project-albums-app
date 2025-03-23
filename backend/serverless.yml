@@ -1,14 +1,21 @@
-org: sparrro
+org: ${env:AWS_ORG}
 service: backend
+
+plugins:
+  - serverless-dotenv-plugin
 
 provider:
   name: aws
   runtime: nodejs20.x
+  environment:
+    AWS_ROLE: ${env:AWS_ROLE}
+    AWS_ORG: ${env:AWS_ORG}
+    AWS_REGION_: ${env:AWS_REGION_}
   httpApi:
     cors: true
-  region: eu-north-1
+  region: ${env:AWS_REGION_}
   iam:
-    role: arn:aws:iam::051826728622:role/Lolas_roll
+    role: ${env:AWS_ROLE}
 
 build:
   esbuild:

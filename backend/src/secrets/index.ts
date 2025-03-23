@@ -3,7 +3,7 @@ import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-sec
 const jwt_secret_name = "exam_jwt";
 
 const client = new SecretsManagerClient({
-    region: "eu-north-1",
+    region: process.env.AWS_REGION_,
 });
 
 export const getJwtSecret = (async (): Promise<string> => {

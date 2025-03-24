@@ -1,3 +1,10 @@
+:root {
+    --inactive-grey: rgb(215, 215, 215);
+    --inactive-grey-hover: rgb(225, 225, 225);
+    --background-blue: rgb(235, 235, 255);
+    --active-orange: rgb(255, 235, 225);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,16 +12,18 @@
 }
 
 section {
+    background-color: var(--active-orange);
     width: fit-content;
     margin: auto;
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     position: relative;
+    top: 15rem;
     height: 14rem;
     width: 20rem;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 form {
@@ -35,16 +44,9 @@ button:last-child {
     width: 5rem;
     left: 50%;
     right: 50%;
-    bottom: 0.5rem;
+    bottom: 0.25rem;
     transform: translate(-50%, -50%);
-}
-
-.signin-mode {
-    background-color: rgb(235, 235, 255);
-}
-
-.signup-mode {
-    background-color: rgb(255, 235, 225);
+    cursor: pointer;
 }
 
 .mode-btn {
@@ -56,18 +58,34 @@ button:last-child {
     position: absolute;
     margin-top: -2rem;
     cursor: pointer;
+    background-color: var(--inactive-grey);
+}
+
+.mode-btn:hover {
+    background-color: var(--inactive-grey-hover);
 }
 
 .mode-btn:nth-child(1) {
-    background-color: rgb(255, 235, 225);
     border-top-left-radius: 20px;
     border-left: 1px solid black;
 }
 
 .mode-btn:nth-child(2) {
-    background-color: rgb(235, 235, 255);
     border-top-right-radius: 20px;
     border-right: 1px solid black;
     border-left: 1px solid rgb(200, 200, 200);
     right: 0;
+}
+
+.mode-btn.active {
+    background-color: var(--active-orange);
+}
+
+p {
+    text-align: center;
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    bottom: 5.25rem;
+    color: red;
 }

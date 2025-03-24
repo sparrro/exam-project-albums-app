@@ -1,12 +1,14 @@
 import { PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import db from "../../database/index";
 import { sendResponse, sendError } from "../../responses/index";
-import { hashPassword } from "../../utils/bcrypt/index"
+import { hashPassword } from "../../utils/bcrypt/index";
+import { validate } from "email-validator";
 
 exports.handler = async (event: any) => {
     
     const { username, email, password } = JSON.parse(event.body);
     if (!username || !email || !password) return sendError(406, "Missing account details");
+    if (!validate(email)) return sendError(400, "Invalid email adress");
 
     try {
         

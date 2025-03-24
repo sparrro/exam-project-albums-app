@@ -1,0 +1,44 @@
+:root {
+    --inactive-grey: rgb(215, 215, 215);
+    --inactive-grey-hover: rgb(225, 225, 225);
+    --background-blue: rgb(235, 235, 255);
+    --active-orange: rgb(255, 235, 225);
+}  
+
+nav {
+    position: absolute;
+    top: 15rem;
+    display: flex;
+    flex-direction: column;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+nav>* {
+    all: unset;
+    cursor: pointer;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    text-align: center;
+    line-height: 3rem;
+    height: 3rem;
+    width: 7rem;
+    background-color: var(--inactive-grey);
+}
+
+nav>*:hover {
+    background-color: var(--inactive-grey-hover);
+}
+
+nav>*.active {
+    background-color: var(--active-orange);
+}
+
+nav>*:first-child {
+    border-top-right-radius: 20px;
+}
+
+nav>*:last-child {
+    border-bottom-right-radius: 20px;
+    border-bottom: 1px solid black;
+}

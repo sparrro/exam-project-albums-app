@@ -1,13 +1,17 @@
 import { create } from "zustand";
 
 interface LoginState {
-    loggedIn: boolean;
-    logIn: () => void;
+    username: string;
+    token: string;
+    setUsername: (username: string) => void;
+    setToken: (token: string) => void;
     logOut: () => void;
 }
 
 export const useLoginStore = create<LoginState>((set) => ({
-    loggedIn: false,
-    logIn: () => set({loggedIn: true}),
-    logOut: () => set({loggedIn: false}),
+    username: "",
+    token: "",
+    setUsername: (username) => set({username: username}),
+    setToken: (token) => set({token: token}),
+    logOut: () => set({username: "", token: ""})
 }));

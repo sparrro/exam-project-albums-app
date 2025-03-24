@@ -7,10 +7,13 @@ const lib_dynamodb_1 = require("@aws-sdk/lib-dynamodb");
 const index_1 = __importDefault(require("../../database/index"));
 const index_2 = require("../../responses/index");
 const index_3 = require("../../utils/bcrypt/index");
+const email_validator_1 = require("email-validator");
 exports.handler = async (event) => {
     const { username, email, password } = JSON.parse(event.body);
     if (!username || !email || !password)
         return (0, index_2.sendError)(406, "Missing account details");
+    if (!(0, email_validator_1.validate)(email))
+        return (0, index_2.sendError)(400, "Invalid email adress");
     try {
         const userNameQueryCommand = new lib_dynamodb_1.QueryCommand({
             TableName: "examProjectUsers",

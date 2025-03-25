@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-    <h1>Shitty RYM Clone&#8482;</h1>
+    <h1>Album Recommenderer</h1>
     <main>
       <Router>
         <NavMenu/>

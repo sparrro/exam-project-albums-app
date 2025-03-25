@@ -1,0 +1,19 @@
+.tag-input-list ul {
+    list-style-type: none;
+}
+
+.tag-input-list li {
+    margin-top: 5px;
+}
+
+.tag-input-list button {
+    padding: 0 5px;
+}
+
+.tag-input-list li>button {
+    margin-left: 5px;
+}
+
+.tag-input-list>button {
+    margin-top: 5px;
+}

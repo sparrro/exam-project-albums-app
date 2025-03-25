@@ -1,5 +1,22 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+.search-params {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-params>* {
+    margin-bottom: 1rem;
+}
+
+.search-params>h2 {
+    grid-column: 1/span 2;
+}
+
+.search-params>.action-btn {
+    width: fit-content;
+    margin-left: 1.75rem;
+}
+
+.search-params input {
+    width: 10rem;
 }

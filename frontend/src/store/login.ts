@@ -13,5 +13,5 @@ export const useLoginStore = create<LoginState>((set) => ({
     token: "",
     setUsername: (username) => set({username: username}),
     setToken: (token) => set({token: token}),
-    logOut: () => set({username: "", token: ""})
+    logOut: () => set({username: "", token: ""}),
 }));

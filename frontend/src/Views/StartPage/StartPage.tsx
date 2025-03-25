@@ -1,8 +1,10 @@
-import { useState } from "react"
-import "./StartPage.css"
+import { useState } from "react";
+import "./StartPage.css";
 import { apiSignUp, apiLogIn } from "../../api/accountCalls";
 import { useLoginStore } from "../../store/login";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/music-album-svgrepo-com.svg";
+import ActionButton from "../../Components/ActionButton/ActionButton";
 
 function StartPage() {
 
@@ -64,24 +66,27 @@ function StartPage() {
     }
     
     return (
-        <section>
-            <button className="mode-btn active" onClick={handleSignUpMode}>Sign up</button>
-            <button className="mode-btn" onClick={handleSignInMode}>Sign in</button>
-            <form>
-                <label htmlFor="username-input">Username:</label>
-                <input type="text" name="username-input" id="username-input" />
-                { mode === "signup" &&
-                    <>
-                        <label htmlFor="email-input">Email:</label>
-                        <input type="text" name="email-input" id="email-input" />
-                    </>
-                }
-                <label htmlFor="password-input">Password:</label>
-                <input type="password" name="password-input" id="password-input" />
-            </form>
-            {errorMsg != "" && <p>{errorMsg}</p>}
-            <button onClick={mode === "signup" ? handleSignUp : handleLogin }>{mode === "signup" ? "Sign up" : "Sign in"}</button>
-        </section>
+        <div className="content-centerer">
+            <img src={logo} alt="" />
+            <section className="login-box">
+                <button className="mode-btn active" onClick={handleSignUpMode}>Sign up</button>
+                <button className="mode-btn" onClick={handleSignInMode}>Sign in</button>
+                <form>
+                    <label htmlFor="username-input">Username:</label>
+                    <input type="text" name="username-input" id="username-input" />
+                    { mode === "signup" &&
+                        <>
+                            <label htmlFor="email-input">Email:</label>
+                            <input type="text" name="email-input" id="email-input" />
+                        </>
+                    }
+                    <label htmlFor="password-input">Password:</label>
+                    <input type="password" name="password-input" id="password-input" />
+                </form>
+                {errorMsg != "" && <p>{errorMsg}</p>}
+                <ActionButton clickFunction={ mode === "signup" ? handleSignUp : handleLogin } prompt={ mode === "signup" ? "Sign up" : "Sign in" } />
+            </section>
+        </div>
     )
 }
 

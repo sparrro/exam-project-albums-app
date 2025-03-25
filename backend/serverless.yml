@@ -75,7 +75,7 @@ functions:
     events:
       - httpApi:
           path: /album/tags
-          method: get
+          method: post
   getByOverlap:
     handler: dist/functions/getByOverlap/index.handler
     events:

@@ -12,6 +12,8 @@ import NavMenu from './Components/NavMenu/NavMenu';
 function App() {
 
   return (
+    <>
+    <h1>Shitty RYM Clone&#8482;</h1>
     <main>
       <Router>
         <NavMenu/>
@@ -24,6 +26,7 @@ function App() {
         </Routes>
       </Router>
     </main>
+    </>
   )
 }
 

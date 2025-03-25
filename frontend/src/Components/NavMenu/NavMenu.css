@@ -1,29 +1,22 @@
-:root {
-    --inactive-grey: rgb(215, 215, 215);
-    --inactive-grey-hover: rgb(225, 225, 225);
-    --background-blue: rgb(235, 235, 255);
-    --active-orange: rgb(255, 235, 225);
-}  
-
 nav {
     position: absolute;
-    top: 15rem;
+    top: 17rem;
     display: flex;
     flex-direction: column;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    box-shadow: var(--shadow);
 }
 
 nav>* {
     all: unset;
     cursor: pointer;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
     text-align: center;
     line-height: 3rem;
     height: 3rem;
     width: 7rem;
     background-color: var(--inactive-grey);
+    border-bottom: var(--tab-border-grey);
 }
 
 nav>*:hover {
@@ -35,10 +28,10 @@ nav>*.active {
 }
 
 nav>*:first-child {
-    border-top-right-radius: 20px;
+    border-top-right-radius: var(--strong-rounding);
 }
 
 nav>*:last-child {
-    border-bottom-right-radius: 20px;
-    border-bottom: 1px solid black;
+    border-bottom-right-radius: var(--strong-rounding);
+    border-bottom: unset;
 }

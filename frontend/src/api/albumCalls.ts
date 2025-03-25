@@ -1,4 +1,4 @@
-const BASE_URL = "https://ihbduus1wd.execute-api.eu-north-1.amazonaws.com";
+const BASE_URL = "https://uy1biworif.execute-api.eu-north-1.amazonaws.com";
 
 export const apiTitleSearch = async (title: string) => {
     try {

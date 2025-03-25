@@ -1,0 +1,11 @@
+.album-list {
+    padding: 2rem 0 0 3rem;
+}
+
+.album-list ul {
+    list-style: none;
+}
+
+.album-list>h2 {
+    margin-bottom: 1rem;
+}

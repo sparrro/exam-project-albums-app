@@ -25,5 +25,3 @@ This is a fullstack web application for managing and exploring music albums. Use
   [Dev Deployment](http://examprojectdevdeployment.s3-website.eu-north-1.amazonaws.com)
 - Once completed, the main production deployment will be available at:  
   [Main Deployment](https://main.d1ac97jlan3z8g.amplifyapp.com/)
-
-

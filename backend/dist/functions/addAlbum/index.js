@@ -16,7 +16,7 @@ const addAlbumHandler = async (event) => {
     let albumId = event.queryStringParameters?.albumId;
     try {
         let isNewAlbum = false;
-        if (!albumId) {
+        if (!albumId) { //skickade man inget id måste man ha skickat en titel => här inne har man redan titeln
             const albumQuery = new lib_dynamodb_1.QueryCommand({
                 TableName: "examProjectAlbums",
                 IndexName: "TitleArtistIndex",
@@ -93,15 +93,23 @@ const addAlbumHandler = async (event) => {
             });
             await index_1.default.send(userAlbumUpdateCommand);
         }
+        const albumGetCommand = new lib_dynamodb_1.GetCommand({
+            TableName: "examProjectAlbums",
+            Key: { albumId }
+        });
+        const albumGetResult = await index_1.default.send(albumGetCommand);
+        const albumTitle = albumGetResult.Item.title;
         const tagsUpdateCommand = new lib_dynamodb_1.UpdateCommand({
             TableName: "examProjectTags",
             Key: { username, albumId },
-            UpdateExpression: "ADD #tags :newTags",
+            UpdateExpression: "ADD #tags :newTags SET #title = :title",
             ExpressionAttributeNames: {
                 "#tags": "tags",
+                "#title": "title",
             },
             ExpressionAttributeValues: {
                 ":newTags": new Set(tags),
+                ":title": albumTitle,
             }
         });
         await index_1.default.send(tagsUpdateCommand);

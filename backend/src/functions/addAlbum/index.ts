@@ -1,4 +1,4 @@
-import { PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { GetCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import db from "../../database/index";
 import { sendResponse, sendError } from "../../responses/index";
 import { v4 as uuidv4 } from "uuid";
@@ -13,7 +13,7 @@ const addAlbumHandler = async (event: any) => {
 
     try {
         let isNewAlbum = false;
-        if (!albumId) {
+        if (!albumId) { //skickade man inget id måste man ha skickat en titel => här inne har man redan titeln
             const albumQuery = new QueryCommand({
                 TableName: "examProjectAlbums",
                 IndexName: "TitleArtistIndex",
@@ -96,15 +96,24 @@ const addAlbumHandler = async (event: any) => {
             await db.send(userAlbumUpdateCommand);
         }
 
-        const tagsUpdateCommand = new UpdateCommand({
+        const albumGetCommand = new GetCommand({
+            TableName: "examProjectAlbums",
+            Key: { albumId }
+        });
+        const albumGetResult = await db.send(albumGetCommand);
+        const albumTitle = albumGetResult.Item!.title;
+
+        const tagsUpdateCommand = new UpdateCommand({ //lägg till skivans titel också
             TableName: "examProjectTags",
             Key: { username, albumId },
-            UpdateExpression: "ADD #tags :newTags",
+            UpdateExpression: "ADD #tags :newTags SET #title = :title",
             ExpressionAttributeNames: {
                 "#tags": "tags",
+                "#title": "title",
             },
             ExpressionAttributeValues: {
                 ":newTags": new Set(tags),
+                ":title": albumTitle,
             }
         });
         await db.send(tagsUpdateCommand);

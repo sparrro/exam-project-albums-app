@@ -1,0 +1,26 @@
+.user-selected-album {
+    background-color: var(--active-orange);
+    padding: 1rem;
+    border-radius: var(--medium-rounding);
+    box-shadow: var(--shadow);
+}
+
+.user-selected-album>ul {
+    list-style: none;
+}
+
+.user-selected-album>ul>li {
+    margin: 0.5rem 0;
+}
+
+.user-selected-album>.action-btn {
+    margin: 1rem 1rem 0 0;
+}
+
+.user-selected-album>h3 {
+    margin: 0.25rem 0;
+}
+
+.user-selected-album>p:nth-child(3) {
+    margin-top: 0.5rem;
+}

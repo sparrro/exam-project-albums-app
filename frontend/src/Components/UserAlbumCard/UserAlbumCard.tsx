@@ -58,9 +58,8 @@ function UserAlbumCard() {
         apiRemoveAlbum(selectedAlbum!.albumId, token)
         .then(() => {
             setTags(tags!.filter(tag => tag.albumId !== selectedAlbum!.albumId));
-            //hämta en ny slumpad skiva som selectedAlbum
-            apiGetAlbum(tags![Math.floor(Math.random()*tags!.length)].albumId).
-            then((res) => {
+            apiGetAlbum(tags![Math.floor(Math.random()*tags!.length)].albumId)
+            .then((res) => {
                 setSelectedAlbum(res.data);
                 setCurrentTags(tags!.find((t) => t.albumId === res.data!.albumId)!.tags);
             })
@@ -81,8 +80,9 @@ function UserAlbumCard() {
                     </li>
                 ))}
             </ul>
+            <p>Add new tags:</p>
             <InputFieldList key={rerenderKey} />
-            <ActionButton prompt="Edit tags" clickFunction={handleEditTags}/>
+            <ActionButton prompt="Update tags" clickFunction={handleEditTags}/>
             <ActionButton prompt="Remove album from my library" clickFunction={handleRemoveAlbum}/>
         </section>
     )

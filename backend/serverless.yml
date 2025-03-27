@@ -70,6 +70,12 @@ functions:
       - httpApi:
           path: /album/{albumTitle}
           method: get
+  getAlbumById:
+    handler: dist/functions/getAlbumById/index.handler
+    events:
+      - httpApi:
+          path: /album/idGet/{albumId}
+          method: get
   getByTags:
     handler: dist/functions/getByTags/index.handler
     events:

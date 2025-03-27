@@ -3,7 +3,7 @@ import AlbumInterface from "../interfaces/AlbumInterface";
 
 interface SelectedAlbumState {
     selectedAlbum: AlbumInterface | null;
-    setSelectedAlbum: (album: AlbumInterface) => void;
+    setSelectedAlbum: (album: AlbumInterface | null) => void;
 }
 
 export const useSelectedAlbumStore = create<SelectedAlbumState>((set) => ({

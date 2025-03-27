@@ -36,8 +36,9 @@ function UserPage() {
     }
 
     useEffect(() => {
+        setSelectedAlbum(null)
         getUserData().then((res) => {
-            getAlbumData(res[Math.floor(Math.random()*res.length)].albumId, res)
+            if (res && res.length > 0) getAlbumData(res[Math.floor(Math.random()*res.length)].albumId, res)
         })
     }, []);
 

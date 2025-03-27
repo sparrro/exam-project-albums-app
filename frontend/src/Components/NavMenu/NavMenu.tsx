@@ -2,13 +2,6 @@ import "./NavMenu.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/login";
 
-/* 
-knapp till startsidan (logga ut-knapp om inloggad)
-knapp till söksidan
-knapp till ens användarsida (kräver inloggning)
-knapp till lägg till-sidan (kräver inloggning)
-*/
-
 function NavMenu() {
 
     const navigate = useNavigate();

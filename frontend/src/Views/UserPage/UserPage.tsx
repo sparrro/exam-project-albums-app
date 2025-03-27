@@ -7,26 +7,31 @@ import UserAlbumLi from "../../Components/UserAlbumLi/UserAlbumLi";
 import { useSelectedAlbumStore } from "../../store/selectedAlbum";
 import UserAlbumCard from "../../Components/UserAlbumCard/UserAlbumCard";
 import { useTagsStore } from "../../store/tags";
+import { useForceRerenderStore } from "../../store/forceRerender";
 
 function UserPage() {
 
     const { token } = useLoginStore();
 
-    const { tags, setTags } = useTagsStore();
+    const { tags, setTags, setCurrentTags } = useTagsStore();
 
     const { selectedAlbum, setSelectedAlbum } = useSelectedAlbumStore();
+
+    const { forceRerender } = useForceRerenderStore();
 
     const getUserData = async () => {
         const response = await apiGetUser(token);
         setTags(response.data);
-        console.log(response.data);
         return response.data;
     }
 
-    const getAlbumData = async (albumId: string) => {
-        const response = await apiGetAlbum(albumId);
-        setSelectedAlbum(response.data);
-        console.log(response.data);
+    const getAlbumData = (albumId: string) => {
+        apiGetAlbum(albumId)
+        .then((res) => {
+            setSelectedAlbum(res.data);
+            setCurrentTags(tags!.find((t) => t.albumId === res.data!.albumId)!.tags);
+        });
+        
     }
 
     useEffect(() => {
@@ -41,7 +46,7 @@ function UserPage() {
                 <h2>My albums</h2>
                 {tags?.map(album => <UserAlbumLi
                     {...album}
-                    onClick={() => getAlbumData(album.albumId)}
+                    onClick={() => {getAlbumData(album.albumId); forceRerender();}}
                     key={album.albumId}/>)}
             </section>
             {selectedAlbum && <UserAlbumCard/>}

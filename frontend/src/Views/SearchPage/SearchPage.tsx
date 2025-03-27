@@ -4,35 +4,42 @@ import "./SearchPage.css"
 import InputFieldList from "../../Components/InputFieldList/InputFieldList";
 import ActionButton from "../../Components/ActionButton/ActionButton";
 import { apiTagSearch, apiTitleSearch } from "../../api/albumCalls";
+import { useForceRerenderStore } from "../../store/forceRerender";
+import { useEffect } from "react";
 
 function SearchPage() {
 
     const { setAlbums } = useAlbumState();
 
-    const handleTitleSearch = async () => {
+    const { rerenderKey, forceRerender } = useForceRerenderStore();
+
+    useEffect(() => {
+        setAlbums([]);
+    }, []);
+
+    const handleTitleSearch = () => {
         const title = (document.getElementById("title-input") as HTMLInputElement).value;
 
-        const response = await apiTitleSearch(title);
-
-        if (response.success) {
-            setAlbums(response.data);
-        } else {
-            console.log(response.message);
-        }
-
+        apiTitleSearch(title)
+        .then((res) => {
+            if (res.success) {
+                setAlbums(res.data);
+            }
+    
+            forceRerender();
+        });
     }
 
-    const handleTagSearch = async () => {
+    const handleTagSearch = () => {
         const inputEls = document.querySelectorAll("li>input") as NodeListOf<HTMLInputElement>;
-        const tags = Array.from(inputEls).map(inputEl => inputEl.value);
+        const tags = [...inputEls].map(inputEl => inputEl.value).filter(value => value !== "");
 
-        const response = await apiTagSearch(tags);
-
-        if (response.success) {
-            setAlbums(response.data);
-        } else {
-            console.log(response.message);
-        }
+        apiTagSearch(tags)
+        .then((res) => {
+            if (res.success) {
+                setAlbums(res.data);
+            }
+        });
     }
 
     return (
@@ -42,7 +49,7 @@ function SearchPage() {
                 <input type="text" id="title-input" />
                 <ActionButton prompt="Search" clickFunction={handleTitleSearch}/>
                 <h2>Or search by tags:</h2>
-                <InputFieldList/>
+                <InputFieldList key={rerenderKey} />
                 <ActionButton prompt="Search" clickFunction={handleTagSearch}/>
             </section>
             <AlbumList/>

@@ -1,0 +1,9 @@
+.my-albums li {
+    list-style: none;
+    margin: 0.5rem 0;
+}
+
+.my-albums h3 {
+    cursor: pointer;
+    width: fit-content;
+}

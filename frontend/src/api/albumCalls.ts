@@ -32,3 +32,18 @@ export const apiTagSearch = async (tags: string[]) => {
         console.error(error);
     }
 }
+
+export const apiGetAlbum = async (albumId: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/album/idGet/?albumId=${albumId}`, {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}

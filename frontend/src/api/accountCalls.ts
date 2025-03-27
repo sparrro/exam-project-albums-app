@@ -40,3 +40,19 @@ export const apiLogIn = async (username: string, password: string) => {
         console.error(error);
     }   
 }
+
+export const apiGetUser = async (token: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/account`, {
+            method: "get",
+            headers: {
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}

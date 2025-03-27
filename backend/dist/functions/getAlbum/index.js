@@ -24,7 +24,7 @@ const handler = async (event) => {
         const withCorrectSets = scanResult.Items?.map((item) => {
             return {
                 ...item,
-                addedBy: [...item.addedBy],
+                addedBy: Array.isArray(item.addedBy) ? [...item.addedBy] : [],
             };
         });
         return (0, index_2.sendResponse)(200, true, "Albums found", withCorrectSets);

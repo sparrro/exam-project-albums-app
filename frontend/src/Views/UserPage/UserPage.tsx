@@ -8,6 +8,7 @@ import { useSelectedAlbumStore } from "../../store/selectedAlbum";
 import UserAlbumCard from "../../Components/UserAlbumCard/UserAlbumCard";
 import { useTagsStore } from "../../store/tags";
 import { useForceRerenderStore } from "../../store/forceRerender";
+import TagsInterface from "../../interfaces/TagsInterface";
 
 function UserPage() {
 
@@ -25,18 +26,18 @@ function UserPage() {
         return response.data;
     }
 
-    const getAlbumData = (albumId: string) => {
+    const getAlbumData = (albumId: string, initTags?: TagsInterface[]) => {
         apiGetAlbum(albumId)
         .then((res) => {
             setSelectedAlbum(res.data);
-            setCurrentTags(tags!.find((t) => t.albumId === res.data!.albumId)!.tags);
+            setCurrentTags((initTags ?? tags)!.find((t) => t.albumId === res.data!.albumId)!.tags);
         });
         
     }
 
     useEffect(() => {
         getUserData().then((res) => {
-            getAlbumData(res[Math.floor(Math.random()*res.length)].albumId)
+            getAlbumData(res[Math.floor(Math.random()*res.length)].albumId, res)
         })
     }, []);
 

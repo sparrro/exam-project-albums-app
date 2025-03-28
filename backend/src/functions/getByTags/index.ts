@@ -24,7 +24,7 @@ export const handler = async (event: any) => {
         const withCorrectSets = matches!.map((item) => {
             return {
                 ...item,
-                addedBy: [...item.addedBy],
+                addedBy: Array.isArray(item.addedBy) ? [...item.addedBy] : [],
             }
         });
 

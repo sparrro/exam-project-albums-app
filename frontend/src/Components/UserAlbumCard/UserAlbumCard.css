@@ -3,6 +3,7 @@
     padding: 1rem;
     border-radius: var(--medium-rounding);
     box-shadow: var(--shadow);
+    height: fit-content;
 }
 
 .user-selected-album>ul {

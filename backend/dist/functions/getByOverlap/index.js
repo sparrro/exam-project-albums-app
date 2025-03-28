@@ -23,7 +23,7 @@ const handler = async (event) => {
             return (0, index_2.sendError)(404, "Album not found");
         const withCorrectSets = {
             ...referenceAlbum,
-            addedBy: [...referenceAlbum.addedBy],
+            addedBy: referenceAlbum.addedBy ? (Array.isArray(referenceAlbum.addedBy) ? [...referenceAlbum.addedBy] : Array.from(referenceAlbum.addedBy)) : [],
         };
         const majorityOfUsers = Math.ceil(withCorrectSets.addedBy.length / 2);
         const consensusTags = Object.keys(withCorrectSets.globalTags).filter((tag) => withCorrectSets.globalTags[tag] >= majorityOfUsers);
@@ -36,7 +36,7 @@ const handler = async (event) => {
         const matchingAlbums = albumScanResult.Items.map(item => {
             return {
                 ...item,
-                addedBy: [...item.addedBy],
+                addedBy: item.addedBy ? (Array.isArray(item.addedBy) ? [...item.addedBy] : Array.from(item.addedBy)) : [],
             };
         }).filter((album) => {
             return album.albumId != albumId;

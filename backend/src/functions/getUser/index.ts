@@ -20,7 +20,7 @@ const getUserHandler = async (event: any) => {
         const userTags = tagsQueryResult.Items!.map(item => {
             return {
                 ...item,
-                tags: [...item.tags],
+                tags: item.tags ? (Array.isArray(item.tags) ? [...item.tags] : Array.from(item.tags)) : [],
             }
         });
 

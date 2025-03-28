@@ -19,7 +19,7 @@ export const handler = async (event: any) => {
         if (!referenceAlbum) return sendError(404, "Album not found");
         const withCorrectSets: any = {
             ...referenceAlbum,
-            addedBy: [...referenceAlbum.addedBy],
+            addedBy: referenceAlbum.addedBy ? (Array.isArray(referenceAlbum.addedBy) ? [...referenceAlbum.addedBy] : Array.from(referenceAlbum.addedBy)) : [],
         }
 
         const majorityOfUsers = Math.ceil(withCorrectSets.addedBy.length/2);
@@ -35,7 +35,7 @@ export const handler = async (event: any) => {
         const matchingAlbums = albumScanResult.Items!.map(item => {
             return {
                 ...item,
-                addedBy: [...item.addedBy],
+                addedBy: item.addedBy ? (Array.isArray(item.addedBy) ? [...item.addedBy] : Array.from(item.addedBy)) : [],
             }
         }).filter((album: any) => {
             return album.albumId != albumId

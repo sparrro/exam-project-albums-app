@@ -14,7 +14,7 @@ export const handler = async (event: any) => {
         const album = albumGetResult.Item;
         const withCorrectSets = {
             ...album,
-            addedBy: [...album!.addedBy],
+            addedBy: album!.addedBy ? (Array.isArray(album!.addedBy) ? [...album!.addedBy] : Array.from(album!.addedBy)) : [],
         }
         return sendResponse(200, true, "Album retrieved", withCorrectSets);
     } catch (error) {

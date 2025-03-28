@@ -26,7 +26,7 @@ const handler = async (event) => {
         const withCorrectSets = matches.map((item) => {
             return {
                 ...item,
-                addedBy: Array.isArray(item.addedBy) ? [...item.addedBy] : [],
+                addedBy: item.addedBy ? (Array.isArray(item.addedBy) ? [...item.addedBy] : Array.from(item.addedBy)) : [],
             };
         });
         return (0, index_2.sendResponse)(200, true, "Albums found", withCorrectSets);

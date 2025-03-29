@@ -14,9 +14,11 @@ const addAlbumHandler = async (event) => {
     const username = event.token.user;
     const { title, artist, tags } = JSON.parse(event.body);
     let albumId = event.queryStringParameters?.albumId;
+    if (!albumId && (!title || !artist))
+        return (0, index_2.sendError)(400, "Missing title or artist");
     try {
         let isNewAlbum = false;
-        if (!albumId) { //skickade man inget id måste man ha skickat en titel => här inne har man redan titeln
+        if (!albumId) {
             const albumQuery = new lib_dynamodb_1.QueryCommand({
                 TableName: "examProjectAlbums",
                 IndexName: "TitleArtistIndex",
@@ -99,18 +101,27 @@ const addAlbumHandler = async (event) => {
         });
         const albumGetResult = await index_1.default.send(albumGetCommand);
         const albumTitle = albumGetResult.Item.title;
+        const updateExpression = tags.length > 0
+            ? "ADD #tags :newTags SET #title = :title"
+            : "SET #title = :title, #tags = :emptySet";
+        const expressionAttributeValues = tags.length > 0
+            ? {
+                ":newTags": new Set(tags),
+                ":title": albumTitle,
+            }
+            : {
+                ":title": albumTitle,
+                ":emptySet": new Set(),
+            };
         const tagsUpdateCommand = new lib_dynamodb_1.UpdateCommand({
             TableName: "examProjectTags",
             Key: { username, albumId },
-            UpdateExpression: "ADD #tags :newTags SET #title = :title",
+            UpdateExpression: updateExpression,
             ExpressionAttributeNames: {
                 "#tags": "tags",
                 "#title": "title",
             },
-            ExpressionAttributeValues: {
-                ":newTags": new Set(tags),
-                ":title": albumTitle,
-            }
+            ExpressionAttributeValues: expressionAttributeValues
         });
         await index_1.default.send(tagsUpdateCommand);
         if (!isNewAlbum) {
@@ -143,7 +154,7 @@ const addAlbumHandler = async (event) => {
             });
             await Promise.all([...tagUpdatePromises, index_1.default.send(addUserCommand)]);
         }
-        return (0, index_2.sendResponse)(201, true, "Album added or updated");
+        return (0, index_2.sendResponse)(201, true, "Album added");
     }
     catch (error) {
         console.error(error);

@@ -83,3 +83,24 @@ export const apiRemoveAlbum = async (albumId: string, token: string) => {
         console.error(error);
     }
 }
+
+export const apiAddNewAlbum = async (title: string, artist: string, tags: string[], token: string) => {
+    try {
+        const response = await fetch(`${BASE_URL}/album/add`, {
+            method: "put",
+            body: JSON.stringify({
+                "title": title,
+                "artist": artist,
+                "tags": tags,
+            }),
+            headers: {
+                "authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}

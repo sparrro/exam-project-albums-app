@@ -11,9 +11,11 @@ const addAlbumHandler = async (event: any) => {
     const { title, artist, tags } = JSON.parse(event.body);
     let albumId = event.queryStringParameters?.albumId;
 
+    if (!albumId && (!title || !artist)) return sendError(400, "Missing title or artist");
+
     try {
         let isNewAlbum = false;
-        if (!albumId) { //skickade man inget id måste man ha skickat en titel => här inne har man redan titeln
+        if (!albumId) {
             const albumQuery = new QueryCommand({
                 TableName: "examProjectAlbums",
                 IndexName: "TitleArtistIndex",
@@ -103,22 +105,33 @@ const addAlbumHandler = async (event: any) => {
         const albumGetResult = await db.send(albumGetCommand);
         const albumTitle = albumGetResult.Item!.title;
 
-        const tagsUpdateCommand = new UpdateCommand({ //lägg till skivans titel också
+        const updateExpression = tags.length > 0
+        ? "ADD #tags :newTags SET #title = :title"
+        : "SET #title = :title, #tags = :emptySet";
+        const expressionAttributeValues = tags.length > 0
+        ? {
+            ":newTags": new Set(tags),
+            ":title": albumTitle,
+        }
+        : {
+            ":title": albumTitle,
+            ":emptySet": new Set(),
+        }
+
+        const tagsUpdateCommand = new UpdateCommand({
             TableName: "examProjectTags",
             Key: { username, albumId },
-            UpdateExpression: "ADD #tags :newTags SET #title = :title",
+            UpdateExpression: updateExpression,
             ExpressionAttributeNames: {
                 "#tags": "tags",
                 "#title": "title",
             },
-            ExpressionAttributeValues: {
-                ":newTags": new Set(tags),
-                ":title": albumTitle,
-            }
+            ExpressionAttributeValues: expressionAttributeValues
         });
         await db.send(tagsUpdateCommand);
 
         if (!isNewAlbum) {
+            
             const tagUpdatePromises = tags.map((tag: string) => {
                 const globalTagsUpdateCommand = new UpdateCommand({
                     TableName: "examProjectAlbums",
@@ -151,7 +164,7 @@ const addAlbumHandler = async (event: any) => {
             await Promise.all([...tagUpdatePromises, db.send(addUserCommand)]);
         }
 
-        return sendResponse(201, true, "Album added or updated");
+        return sendResponse(201, true, "Album added");
     } catch (error) {
         console.error(error);
         return sendError(500, "Server error");

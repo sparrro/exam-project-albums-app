@@ -1,5 +1,25 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+.album-adder-card {
+    background-color: var(--active-orange);
+    display: grid;
+    grid-template-columns: 8rem 12rem;
+    grid-row-gap: 1rem;
+    padding: 1rem 2rem;
+    border-radius: var(--medium-rounding);
+    box-shadow: var(--shadow);
+}
+
+.album-adder-card>h2 {
+    grid-column: 1/span 2;
+    text-align: center;
+}
+
+.album-adder-card>.action-btn {
+    grid-column: 1/span 2;
+    width: fit-content;;
+    margin: auto;
+}
+
+.album-adder-card>p {
+    grid-column: 1/span 2;
+    text-align: center;
 }
